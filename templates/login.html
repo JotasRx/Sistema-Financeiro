@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso - FinanceApp</title>
+    <style>
+        /* ==========================================================================
+           RESET E BASE
+           ========================================================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            display: flex; 
+            height: 100vh; 
+            overflow: hidden; 
+            background-color: #f4f7f6; 
+        }
+
+        /* ==========================================================================
+           LADO ESQUERDO: APRESENTAÇÃO 
+           ========================================================================== */
+        .login-banner {
+            flex: 1;
+            /* Degradê elegante usando cores profissionais */
+            background: linear-gradient(135deg, #000000, #000000, #000000); 
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            text-align: center;
+        }
+        .login-banner h1 { 
+            font-size: 3rem; 
+            margin-bottom: 10px; 
+            letter-spacing: 1px; 
+        }
+        .login-banner p { 
+            font-size: 1.1rem; 
+            color: #ffffff; 
+            max-width: 400px; 
+            line-height: 1.5; 
+        }
+
+        /* ==========================================================================
+           LADO DIREITO: FORMULÁRIO DE LOGIN
+           ========================================================================== */
+        .login-form-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff;
+            position: relative;
+        }
+
+
+        /* Estilização dos Inputs */
+        .input-group { margin-bottom: 20px; text-align: left; }
+        .input-group label { 
+            display: block; 
+            font-size: 0.9rem; 
+            font-weight: 600; 
+            color: #555; 
+            margin-bottom: 8px; 
+        }
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e5eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .input-group input:focus { 
+            border-color: #000000; 
+            box-shadow: 0 0 0 3px rgba(250, 249, 249, 0.1); 
+        }
+
+        /* Botão Interativo */
+        .btn-submit {
+            width: 100%;
+            background-color: #000000;
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            margin-top: 10px;
+        }
+        .btn-submit:hover { background-color: #000000; }
+        .btn-submit:active { transform: scale(0.98); } /* Feedback visual de clique */
+
+        .links { text-align: center; margin-top: 25px; font-size: 0.9rem; color: #666; }
+        .links a { color: #000000; text-decoration: none; font-weight: bold; transition: color 0.2s; }
+        .links a:hover { color: #000000; text-decoration: underline; }
+
+        /* Mensagens do Flask com design limpo */
+        .alert { 
+            padding: 12px; 
+            border-radius: 6px; 
+            margin-bottom: 20px; 
+            font-size: 0.9rem; 
+            text-align: center; 
+            font-weight: 500; 
+            border-left: 4px solid; 
+        }
+        .alert-error { background-color: #fdf2f2; color: #b91c1c; border-left-color: #ef4444; }
+        .alert-success { background-color: #f0fdf4; color: #15803d; border-left-color: #22c55e; }
+
+        /* ==========================================================================
+           RESPONSIVIDADE (MEDIA QUERIES)
+           ========================================================================== */
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            .login-banner { display: none; } /* Esconde a arte no celular para focar no login */
+            .login-form-container { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-banner">
+        <h1>FinanceApp</h1>
+        <p>O seu sistema completo e inteligente para gestão e controle financeiro pessoal.</p>
+    </div>
+
+    <div class="login-form-container">
+        <div class="form-wrapper">
+            <h2>Bem-vindo de volta!</h2>
+            <p class="subtitle">Insira as suas credenciais para aceder ao painel.</p>
+
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                {% for message in messages %}
+                  <div class="alert {% if 'sucesso' in message or 'realizado' in message %}alert-success{% else %}alert-error{% endif %}">
+                    {{ message }}
+                  </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+
+            <form action="/login" method="POST">
+                <div class="input-group">
+                    <label for="usuario">Identificador (Usuário ou CPF)</label>
+                    <input type="text" id="usuario" name="usuario" placeholder="Ex: joaosilva" required autocomplete="off">
+                </div>
+                
+                <div class="input-group">
+                    <label for="senha">Palavra-passe</label>
+                    <input type="password" id="senha" name="senha" placeholder="••••••••" required>
+                </div>
+                
+                <button type="submit" class="btn-submit">Entrar no Sistema</button>
+            </form>
+
+            <div class="links">
+                Ainda não tem uma conta? <a href="/cadastro">Criar conta grátis</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
