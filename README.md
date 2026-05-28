@@ -2,22 +2,22 @@
 
 Este projeto consiste em uma plataforma web desenvolvida como Trabalho de Conclusão de Curso (TCC) para o curso de Sistemas de Informação. O objetivo é auxiliar usuários na organização, planejamento e gestão de suas finanças diárias, permitindo o registro de receitas e despesas e a visualização de indicadores financeiros.
 
-## 🚀 Tecnologias Utilizadas
+##  Tecnologias Utilizadas
 O projeto foi desenvolvido utilizando as seguintes tecnologias:
 - **Backend:** Python com Flask
 - **Banco de Dados:** MySQL
 - **Frontend:** HTML5, CSS3, JavaScript e Chart.js (para gráficos)
 
-## 📋 Pré-requisitos
+##  Pré-requisitos
 Para executar este projeto em sua máquina, você precisará de:
 1. Python instalado (versão 3.x).
 2. Servidor MySQL instalado e rodando (Ex: XAMPP, MySQL Server).
 3. Gerenciador de pacotes `pip`.
 
-## ⚙️ Como configurar e rodar
+##  Como configurar e rodar
 1. **Clone o repositório:**
    ```bash
-   git clone [https://github.com/JotaPe-art/Sistema-web-Financeiro](https://github.com/JotaPe-art/Sistema-web-Financeiro)
+   git clone [https://github.com/JotasRx/Sistema-Financeiro](https://github.com/JotasRx/Sistema-Financeiro)
 Instale as dependências:
 
 Bash
