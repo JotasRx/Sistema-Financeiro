@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações - Controle Financeiro</title>
+    <style>
+        /* Mesmas variáveis do Dashboard para manter o padrão */
+        :root { --sidebar-bg: #171717; --sidebar-hover: #2f2f2f; --text-light: #ececec; --bg-main: #f9f9fb; }
+        body { margin: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; display: flex; height: 100vh; background-color: var(--bg-main); overflow: hidden; }
+        
+        /* Sidebar (Cópia exata do Dashboard) */
+        .sidebar { width: 260px; background-color: var(--sidebar-bg); color: var(--text-light); display: flex; flex-direction: column; padding: 15px; box-sizing: border-box; justify-content: space-between; }
+        .sidebar-brand { font-size: 20px; font-weight: bold; margin-bottom: 30px; padding-left: 10px; color: white; }
+        .sidebar-nav { display: flex; flex-direction: column; gap: 8px; }
+        .nav-item { padding: 12px 15px; text-decoration: none; color: var(--text-light); border-radius: 8px; display: flex; align-items: center; gap: 12px; font-size: 15px; transition: background-color 0.2s; }
+        .nav-item:hover { background-color: var(--sidebar-hover); }
+        .nav-item.active { background-color: var(--sidebar-hover); font-weight: bold; }
+        .sidebar-bottom { border-top: 1px solid #444; padding-top: 15px; margin-top: auto; display: flex; flex-direction: column; gap: 8px; }
+        
+        /* Conteúdo Principal */
+        .main-content { flex: 1; padding: 40px; overflow-y: auto; }
+        .header-title { margin-top: 0; color: #202123; font-size: 28px; margin-bottom: 25px; font-weight: 600;}
+        
+        /* Layout das Configurações */
+        .config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 900px;}
+        .config-section { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #eaeaea; margin-bottom: 20px;}
+        .config-section h3 { margin-top: 0; border-bottom: 1px solid #eaeaea; padding-bottom: 10px; color: #333; font-size: 18px;}
+        
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-size: 14px; font-weight: bold; color: #555; margin-bottom: 5px; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; box-sizing: border-box; outline: none; font-size: 14px; }
+        input:focus, select:focus { border-color: #10a37f; }
+        .readonly-input { background-color: #f3f4f6; cursor: not-allowed; color: #6b7280; }
+        
+        .btn-salvar { background-color: #10a37f; color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 16px; width: 100%; margin-top: 10px; transition: 0.2s;}
+        .btn-salvar:hover { background-color: #0e8f6e; }
+        
+        .alert-success { background-color: #d1fae5; color: #065f46; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #a7f3d0; font-weight: bold; max-width: 900px;}
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div>
+            <div class="sidebar-brand">FinanceApp</div>
+            <div class="sidebar-nav">
+                <a href="/dashboard" class="nav-item"> Visão Geral</a>
+                <a href="/transacoes" class="nav-item"> Transações</a>
+            </div>
+        </div>
+        <div class="sidebar-bottom">
+            <a href="/configuracoes" class="nav-item active"> Configurações</a>
+            <a href="/logout" class="nav-item" style="color: #ff6b6b;"> Sair da conta</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h2 class="header-title">Configurações do Sistema</h2>
+        
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="alert-success">
+              {% for message in messages %}{{ message }}{% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        <form action="/configuracoes" method="POST">
+            <div class="config-grid">
+                
+                <div>
+                    <div class="config-section">
+                        <h3> Dados Pessoais</h3>
+                        <div class="form-group">
+                            <label>Nome Completo</label>
+                            <input type="text" name="nome" value="{{ usuario['nome'] }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label>E-mail Principal</label>
+                            <input type="email" name="email" value="{{ usuario['email'] }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Documento (CPF/CNPJ)</label>
+                            <input type="text" class="readonly-input" value="{{ usuario['cpf_cnpj'] }}" readonly>
+                        </div>
+                    </div>
+
+                    <div class="config-section">
+                        <h3> Segurança</h3>
+                        <div class="form-group">
+                            <label>Nova Senha</label>
+                            <input type="password" name="nova_senha" placeholder="Digite apenas se desejar alterar">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="config-section">
+                        <h3> Preferências</h3>
+                        <div class="form-group">
+                            <label>Moeda Padrão</label>
+                            <select name="moeda" disabled title="Em breve">
+                                <option>Real Brasileiro (R$)</option>
+                                <option>Dólar Americano ($)</option>
+                                <option>Euro (€)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tema do Sistema (Visual)</label>
+                            <select name="tema" disabled title="Em breve">
+                                <option>Modo Claro (Padrão)</option>
+                                <option>Modo Escuro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Receber alertas no E-mail?</label>
+                            <select name="notificacoes" disabled title="Em breve">
+                                <option>Sim, enviar resumo mensal</option>
+                                <option>Não enviar nada</option>
+                            </select>
+                            <small style="color: #888; display: block; margin-top: 5px;">*Novas opções visuais serão ativadas na próxima atualização.</small>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-salvar"> Salvar Todas as Configurações</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

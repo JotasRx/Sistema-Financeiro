@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Transação</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; }
+        .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #333; }
+        form { display: flex; flex-direction: column; gap: 15px; }
+        input, select { padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        button { padding: 10px; background-color: #ffc107; color: #333; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        button:hover { background-color: #e0a800; }
+        .btn-voltar { text-align: center; display: block; margin-top: 15px; text-decoration: none; color: #007BFF; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Editar Transação</h2>
+        <form method="POST">
+            <label>Descrição:</label>
+            <input type="text" name="descricao" value="{{ transacao.descricao }}" required>
+            
+            <label>Valor (R$):</label>
+            <input type="number" step="0.01" name="valor" value="{{ transacao.valor }}" required>
+            
+            <label>Categoria:</label>
+            <select name="categoria" required>
+                <option value="Alimentação" {% if transacao.categoria == 'Alimentação' %}selected{% endif %}>Alimentação</option>
+                <option value="Transporte" {% if transacao.categoria == 'Transporte' %}selected{% endif %}>Transporte</option>
+                <option value="Salário" {% if transacao.categoria == 'Salário' %}selected{% endif %}>Salário</option>
+                <option value="Lazer" {% if transacao.categoria == 'Lazer' %}selected{% endif %}>Lazer</option>
+                <option value="Outros" {% if transacao.categoria == 'Outros' %}selected{% endif %}>Outros</option>
+            </select>
+            
+            <label>Tipo:</label>
+            <select name="tipo" required>
+                <option value="Despesa" {% if transacao.tipo == 'Despesa' %}selected{% endif %}>Despesa</option>
+                <option value="Receita" {% if transacao.tipo == 'Receita' %}selected{% endif %}>Receita</option>
+            </select>
+            
+            <label>Data:</label>
+            <input type="date" name="data" value="{{ transacao.data }}" required>
+            
+            <button type="submit">Salvar Alterações</button>
+        </form>
+        <a href="/transacoes" class="btn-voltar">Cancelar e Voltar</a>
+    </div>
+</body>
+</html>
